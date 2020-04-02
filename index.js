@@ -127,6 +127,7 @@ export default class SwitchSelector extends Component {
       imageStyle,
       textColor,
       selectedColor,
+      fontFamily,
       fontSize,
       backgroundColor,
       borderColor,
@@ -169,6 +170,7 @@ export default class SwitchSelector extends Component {
           <Text
             style={[
               {
+                fontFamily,
                 fontSize,
                 fontWeight: bold ? "bold" : "normal",
                 textAlign: "center",
