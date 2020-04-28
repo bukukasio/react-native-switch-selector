@@ -43,6 +43,8 @@ declare module "react-native-switch-selector" {
     returnObject?: boolean;
     disabled?: boolean;
     disableValueChangeOnPress?: boolean;
+    roundedSelection?: boolean,
+    itemSeparator?: JSX.Element
   }
 
   class SwitchSelector extends Component<ISwitchSelectorProps> {}

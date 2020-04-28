@@ -137,52 +137,58 @@ export default class SwitchSelector extends Component {
       height,
       bold,
       disabled,
-      buttonMargin
+      buttonMargin,
+      roundedSelection,
+      itemSeparator
     } = this.props;
+    const { selected } = this.state
 
     const options = this.props.options.map((element, index) => {
       const is_selected = this.state.selected == index;
 
       return (
-        <TouchableOpacity
-          key={index}
-          disabled={disabled}
-          style={[styles.button, is_selected ? selectedTextContainerStyle : textContainerStyle]}
-          onPress={() => this.toggleItem(index)}
-        >
-          {typeof element.customIcon === "function"
-            ? element.customIcon(is_selected)
-            : element.customIcon}
-          {element.imageIcon && (
-            <Image
-              source={element.imageIcon}
+        <>
+          <TouchableOpacity
+            key={index}
+            disabled={disabled}
+            style={[styles.button, is_selected ? selectedTextContainerStyle : textContainerStyle]}
+            onPress={() => this.toggleItem(index)}
+          >
+            {typeof element.customIcon === "function"
+              ? element.customIcon(is_selected)
+              : element.customIcon}
+            {element.imageIcon && (
+              <Image
+                source={element.imageIcon}
+                style={[
+                  {
+                    height: 30,
+                    width: 30,
+                    tintColor:
+                      is_selected ? selectedColor : textColor
+                  },
+                  imageStyle
+                ]}
+              />
+            )}
+            <Text
               style={[
                 {
-                  height: 30,
-                  width: 30,
-                  tintColor:
-                    is_selected ? selectedColor : textColor
+                  fontFamily,
+                  fontSize,
+                  fontWeight: bold ? "bold" : "normal",
+                  textAlign: "center",
+                  color: is_selected ? selectedColor : textColor,
+                  backgroundColor: "transparent"
                 },
-                imageStyle
+                is_selected ? selectedTextStyle : textStyle
               ]}
-            />
-          )}
-          <Text
-            style={[
-              {
-                fontFamily,
-                fontSize,
-                fontWeight: bold ? "bold" : "normal",
-                textAlign: "center",
-                color: is_selected ? selectedColor : textColor,
-                backgroundColor: "transparent"
-              },
-              is_selected ? selectedTextStyle : textStyle
-            ]}
-          >
-            {element.label}
-          </Text>
-        </TouchableOpacity>
+            >
+              {element.label}
+            </Text>
+          </TouchableOpacity>
+          {!!itemSeparator && index != this.props.options.length - 1 && itemSeparator}
+        </>
       )
     });
 
@@ -232,9 +238,11 @@ export default class SwitchSelector extends Component {
                           })
                         }
                       ],
-                      borderRadius: borderRadius,
                       margin: buttonMargin
                     },
+                    !roundedSelection && selected == 0 && { borderTopLeftRadius: borderRadius, borderBottomLeftRadius: borderRadius },
+                    !roundedSelection && selected == options.length - 1 && { borderTopRightRadius: borderRadius, borderBottomRightRadius: borderRadius },
+                    roundedSelection && { borderRadius: borderRadius },
                     styles.animated
                   ]}
                 />
@@ -271,5 +279,7 @@ SwitchSelector.defaultProps = {
   animationDuration: 100,
   disabled: false,
   disableValueChangeOnPress: false,
-  initial: -1
+  initial: -1,
+  roundedSelection: true,
+  itemSeparator: null
 };
