@@ -147,9 +147,8 @@ export default class SwitchSelector extends Component {
       const is_selected = this.state.selected == index;
 
       return (
-        <>
+        <React.Fragment key={index}>
           <TouchableOpacity
-            key={index}
             disabled={disabled}
             style={[styles.button, is_selected ? selectedTextContainerStyle : textContainerStyle]}
             onPress={() => this.toggleItem(index)}
@@ -188,7 +187,7 @@ export default class SwitchSelector extends Component {
             </Text>
           </TouchableOpacity>
           {!!itemSeparator && index != this.props.options.length - 1 && itemSeparator}
-        </>
+        </React.Fragment>
       )
     });
 
