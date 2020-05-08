@@ -214,7 +214,7 @@ export default class SwitchSelector extends Component {
                 backgroundColor: backgroundColor,
                 height: height + (buttonMargin * 2)
               },
-              roundedSelection && borderRadius,
+              roundedSelection && { borderRadius },
               !roundedSelection && borderStyle
             ]}
             onLayout={event => {
