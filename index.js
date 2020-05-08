@@ -139,7 +139,8 @@ export default class SwitchSelector extends Component {
       disabled,
       buttonMargin,
       roundedSelection,
-      itemSeparator
+      itemSeparator,
+      borderStyle
     } = this.props;
     const { selected } = this.state
 
@@ -191,15 +192,31 @@ export default class SwitchSelector extends Component {
       )
     });
 
+    const leftBorderStyle = {}
+    const rightBorderStyle = {}
+
+    if (!roundedSelection && borderStyle) {
+      Object.keys(borderStyle).map(style => {
+        if (style.toLowerCase().includes('left')) {
+          leftBorderStyle[style] = borderStyle[style]
+        } else {
+          rightBorderStyle[style] = borderStyle[style]
+        }
+      })
+    }
+
     return (
       <View style={[{ flexDirection: "row" }, style]}>
         <View {...this._panResponder.panHandlers} style={{ flex: 1 }}>
           <View
-            style={{
-              borderRadius: borderRadius,
-              backgroundColor: backgroundColor,
-              height: height + (buttonMargin * 2)
-            }}
+            style={[
+              {
+                backgroundColor: backgroundColor,
+                height: height + (buttonMargin * 2)
+              },
+              roundedSelection && borderRadius,
+              !roundedSelection && borderStyle
+            ]}
             onLayout={event => {
               const { width } = event.nativeEvent.layout;
               this.setState({
@@ -239,8 +256,8 @@ export default class SwitchSelector extends Component {
                       ],
                       margin: buttonMargin
                     },
-                    !roundedSelection && selected == 0 && { borderTopLeftRadius: borderRadius, borderBottomLeftRadius: borderRadius },
-                    !roundedSelection && selected == options.length - 1 && { borderTopRightRadius: borderRadius, borderBottomRightRadius: borderRadius },
+                    !roundedSelection && selected == 0 && leftBorderStyle,
+                    !roundedSelection && selected == options.length - 1 && rightBorderStyle,
                     roundedSelection && { borderRadius: borderRadius },
                     styles.animated
                   ]}
@@ -280,5 +297,6 @@ SwitchSelector.defaultProps = {
   disableValueChangeOnPress: false,
   initial: -1,
   roundedSelection: true,
-  itemSeparator: null
+  itemSeparator: null,
+  borderStyle: null
 };
