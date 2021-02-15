@@ -153,6 +153,8 @@ export default class SwitchSelector extends Component {
             disabled={disabled}
             style={[styles.button, is_selected ? selectedTextContainerStyle : textContainerStyle]}
             onPress={() => this.toggleItem(index)}
+            accessibilityLabel={`${element.value}:in`}
+            testID={`${element.value}:in`}
           >
             {typeof element.customIcon === "function"
               ? element.customIcon(is_selected)
